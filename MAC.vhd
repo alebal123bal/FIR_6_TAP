@@ -16,7 +16,7 @@ end entity MAC;
 
 architecture BHV of MAC is
     -- Combinational logic signals
-    signal mult_s   :   double_data_format;
+    signal mult_s   :   double_data_format; --TODO: correct this length
     signal sum_s    :   data_format;
     signal y_s      :   data_format;
 
