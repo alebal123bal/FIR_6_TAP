@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-use WORK.pack_ROM.all;
+use WORK.pack_FIR.all;
 
 
 --Single cell to be instantiated 6 times in order to make a FIFO
