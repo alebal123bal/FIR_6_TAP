@@ -15,6 +15,7 @@ entity MAC is
 end entity MAC;
 
 architecture BHV of MAC is
+    signal mult_s   :   double_data_format;
     begin
     
     end architecture BHV;
