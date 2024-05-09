@@ -19,7 +19,6 @@ architecture BHV of FIR_6_TAPS is
     signal content_s:   data_format;
     signal xk_s:        data_format;
     signal K_s:         k_format;
-    signal READY_s:     std_logic;
 
     component ROM is
         port(
@@ -66,7 +65,7 @@ architecture BHV of FIR_6_TAPS is
             RST     => RST,
             CLK     => CLK,
             K       => K_s,
-            READY   => READY_s
+            READY   => READY
         );
 
         my_ROM: ROM port map(
@@ -77,7 +76,7 @@ architecture BHV of FIR_6_TAPS is
         my_IN_BUFFER:   IN_BUFFER port map(
             RST     => RST,
             CLK     => CLK,
-            READY   => READY_s,
+            READY   => READY,
             K       => K_s,
             xn_p_1  => x_in,
             xk      => xk_s
@@ -88,7 +87,7 @@ architecture BHV of FIR_6_TAPS is
             xk_in   => xk_s,
             RST     => RST,
             CLK     => CLK,
-            READY   => READY_s,
+            READY   => READY,
             yn      => yn
         );
 
