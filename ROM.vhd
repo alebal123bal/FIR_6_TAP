@@ -14,12 +14,12 @@ end ROM;
 architecture BHV of ROM is
     signal FIR_coeff: data_format_array := 
     (
-        x"000001",
-        x"000002",
-        x"000003",
-        x"000004",
-        x"000005",
-        x"000006"
+        x"00000A",
+        x"00000B",
+        x"00000C",
+        x"00000D",
+        x"00000E",
+        x"00000F"
     );
 
 	begin
