@@ -45,10 +45,11 @@ architecture BHV of MAC_tb is
             RST_s <= '1';
 
             wait for 200ns;
-            
+
             READY_s <= '1';
             wait for 20ns;
             READY_s <= '0';
+            wait for 20ns;
             std.env.stop(0);
         end process;
 
