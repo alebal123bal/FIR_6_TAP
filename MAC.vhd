@@ -18,7 +18,6 @@ architecture BHV of MAC is
     -- Combinational logic signals
     signal mult_s   :   double_data_format;
     signal sum_s    :   data_format;
-    signal y_s      :   data_format;
 
     -- Clocked signals out of REG
     signal sum_s_clkd    :   data_format;
@@ -29,7 +28,6 @@ architecture BHV of MAC is
             if RST='0' then
                 mult_s <= (others => '0');
                 sum_s <= (others => '0');
-                y_s <= (others => '0');
             else
                 mult_s  <=  ROM_in * xk_in;
                 sum_s   <=  mult_s(23 downto 0) + sum_s_clkd;
@@ -52,7 +50,7 @@ architecture BHV of MAC is
                 if READY='1' then
                     yn <= sum_s_clkd;
                 else
-                    
+                    yn <= yn;
                 end if;
             end if;
         end process OUT_ASSIGN;    
