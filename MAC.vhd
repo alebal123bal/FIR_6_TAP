@@ -32,7 +32,7 @@ architecture BHV of MAC is
                 y_s <= (others => '0');
             else
                 mult_s  <=  ROM_in * xk_in;
-                sum_s   <=  mult_s + sum_s_clkd;
+                sum_s   <=  mult_s(23 downto 0) + sum_s_clkd;
                 if READY='1' then
                     y_s <= sum_s_clkd;
                 else
