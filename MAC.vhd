@@ -33,11 +33,6 @@ architecture BHV of MAC is
             else
                 mult_s  <=  ROM_in * xk_in;
                 sum_s   <=  mult_s(23 downto 0) + sum_s_clkd;
-                if READY='1' then
-                    yn <= sum_s_clkd;
-                else
-                    
-                end if;
             end if;
 
         end process CALC_OUT;
@@ -49,4 +44,16 @@ architecture BHV of MAC is
                     sum_s_clkd <= sum_s;
                 end if;
             end process REG_ASSIGN;
+        
+        -- Assign output only when is ready
+        OUT_ASSIGN: process(CLK)
+        begin
+            if rising_edge(CLK) then
+                if READY='1' then
+                    yn <= sum_s_clkd;
+                else
+                    
+                end if;
+            end if;
+        end process OUT_ASSIGN;    
     end architecture BHV;
