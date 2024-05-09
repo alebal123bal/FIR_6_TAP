@@ -25,7 +25,7 @@ architecture BHV of CU is
                 -- Active low
                 if RST = '1' then
                     if state = ITERATE then
-                        if K_s = "101" then
+                        if K_s = "101" then --TODO check this
                             state_s <= ITERATE; -- Keep iterating; don't stop
                             K_s <= "000";   -- But do restart counting
                             READY_s   <= '1';
