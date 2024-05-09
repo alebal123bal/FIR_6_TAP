@@ -20,7 +20,7 @@ architecture BHV of CU is
     signal READY_s: std_logic;
     
     begin
-        CALC_NEXT:  process(START, RST, state)
+        CALC_NEXT:  process(START, RST, READY_s, K, state)
             begin
                 -- Active low
                 if RST = '1' then
@@ -28,13 +28,13 @@ architecture BHV of CU is
                         if K_s = "101" then
                             state_s <= ITERATE; -- Keep iterating; don't stop
                             K_s <= "000";   -- But do restart counting
-                            READY   <= '1';
+                            READY_s   <= '1';
                         else
                             state_s <= ITERATE;
-                            K_s <= K_s + 1;
-                            READY   <= '0';
+                            K_s <= K + 1;
+                            READY_s   <= '0';
                         end if;
-                    elsif state = IDLE then
+                    else
                         if start = '1' then
                             state_s <= ITERATE;
                         else
@@ -42,10 +42,6 @@ architecture BHV of CU is
                         end if;
                         K_s     <= "000";
                         READY_s <= '0';
-                    else    -- Undef etc. Is this really needed?
-                        state_s   <= IDLE;
-                        K_s       <= "000";
-                        READY_s   <= '0';
                     end if;
                 else
                     state_s   <= IDLE;
