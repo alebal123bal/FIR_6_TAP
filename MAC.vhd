@@ -16,7 +16,7 @@ end entity MAC;
 
 architecture BHV of MAC is
     -- Combinational logic signals
-    signal mult_s   :   double_data_format; --TODO: correct this length
+    signal mult_s   :   double_data_format;
     signal sum_s    :   data_format;
     signal y_s      :   data_format;
 
@@ -33,10 +33,10 @@ architecture BHV of MAC is
             else
                 mult_s  <=  ROM_in * xk_in;
                 sum_s   <=  mult_s + sum_s_clkd;
-                if READY='0' then
-                    y_s <= y_s;
-                else
+                if READY='1' then
                     y_s <= sum_s_clkd;
+                else
+                    y_s <= y_s;
                 end if;
             end if;
 
