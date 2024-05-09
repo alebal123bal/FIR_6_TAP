@@ -34,9 +34,9 @@ architecture BHV of MAC is
                 mult_s  <=  ROM_in * xk_in;
                 sum_s   <=  mult_s + sum_s_clkd;
                 if READY='0' then
-                    ys <= ys;
+                    y_s <= y_s;
                 else
-                    ys <= sum_s_clkd;
+                    y_s <= sum_s_clkd;
                 end if;
             end if;
 
