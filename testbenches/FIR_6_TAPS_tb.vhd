@@ -28,7 +28,7 @@ architecture BHV of FIR_6_TAPS_tb is
     signal yn_s     :   data_format;
 
     begin
-        DUT_MAC:    MAC port map(
+        DUT_FIR_6_TAPS: FIR_6_TAPS port map(
             START   => START_s,
             RST     => RST_s,
             CLK     => CLK_s,
