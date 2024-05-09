@@ -3,50 +3,50 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use WORK.pack_FIR.all;
 
-entity BUFF_tb is
-end entity BUFF_tb;
+entity FIR_6_TAPS_tb is
+end entity FIR_6_TAPS_tb;
 
-architecture BHV of BUFF_tb is
-    component IN_BUFFER is
+architecture BHV of FIR_6_TAPS_tb is
+    component FIR_6_TAPS is
         port(
+            START:  in std_logic;
             RST:    in std_logic;
             CLK:    in std_logic;
-            READY:  in std_logic;
-            K:      in k_format;
-            xn_p_1: in data_format;
-            xk:     out data_format
+            x_in    :   in data_format;
+            yn      :   out data_format;
+            READY:  out std_logic
         );
     end component;
 
-    signal xs   :  data_format :=  x"00BEEF";
-    signal ys   :  data_format :=  x"000000";
+    signal xin_s    :  data_format;
 
+    signal START_s  :   std_logic;
     signal RST_s    :   std_logic;
     signal CLK_s    :   std_logic;
     signal READY_s  :   std_logic;
 
+    signal yn_s     :   data_format;
+
     begin
-        DUT_in_buff :   IN_BUFFER port map(
+        DUT_MAC:    MAC port map(
+            START   => START_s,
             RST     => RST_s,
             CLK     => CLK_s,
-            READY   => READY_s,
-            K       => "101",
-            xn_p_1  => xs,
-            xk      => ys
+            x_in    => xin_s,
+            yn      => yn_s,
+            READY   => READY_s
         );
 
         process begin
             -- Active low
-            RST_s <= '0';
-            READY_s <= '0';
+            RST_s   <= '0';
+            START_s <= '0';
             wait for 20ns;
-            RST_s <= '1';
-
-            READY_s <= '1';
-            wait for 20ns;
-            READY_s <= '0';
+            RST_s   <= '1';
+            START_s <= '1';
 
             wait for 200ns;
+
             std.env.stop(0);
         end process;
 

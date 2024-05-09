@@ -36,6 +36,7 @@ architecture BHV of CU_tb is
         process begin
             -- Active low
             RST_s <= '0';
+            START_s <= '0';
             wait for 20ns;
             RST_s <= '1';
             START_s <= '1';

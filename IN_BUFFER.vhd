@@ -9,7 +9,7 @@ entity IN_BUFFER is
         RST:    in std_logic;
         CLK:    in std_logic;
         READY:  in std_logic;
-        k:      in k_format;
+        K:      in k_format;
         xn_p_1: in data_format;
         xk:     out data_format
     );
@@ -27,7 +27,7 @@ architecture BHV of IN_BUFFER is
         );
     end component;
 
-    -- Output of MUX to pick k-th element of BUFFER
+    -- Output of MUX to pick K-th element of BUFFER
     signal xk_s:    data_format_array;
 
     begin
@@ -56,7 +56,7 @@ architecture BHV of IN_BUFFER is
 
         ASSIGN_OUT: process(xk_s)
             begin
-                xk <= xk_s(to_integer(k));
+                xk <= xk_s(to_integer(K));
             end process ASSIGN_OUT;
 
     end architecture BHV;

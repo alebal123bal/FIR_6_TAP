@@ -5,7 +5,7 @@ use WORK.pack_FIR.all;
 
 entity ROM is
 	port(
-        k:          in k_format;
+        K:          in k_format;
         content:    out data_format
 	);
 end ROM;
@@ -24,7 +24,7 @@ architecture BHV of ROM is
 
 	begin
 		process(all) begin
-			content <= FIR_coeff(to_integer(k));
+			content <= FIR_coeff(to_integer(K));
 		end process;
 end BHV;
 
