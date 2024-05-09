@@ -45,7 +45,7 @@ architecture BHV of FIR_6_TAPS_tb is
             RST_s   <= '1';
             START_s <= '1';
 
-            wait for 200ns;
+            wait for 400ns;
 
             std.env.stop(0);
         end process;
