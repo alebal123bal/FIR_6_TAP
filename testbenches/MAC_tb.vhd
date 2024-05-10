@@ -13,7 +13,6 @@ architecture BHV of MAC_tb is
             xk_in   :   in data_format;
             RST     :   in std_logic;
             CLK     :   in std_logic;
-            READY   :   in std_logic;
             yn      :   out data_format
         );
     end component;
@@ -33,7 +32,6 @@ architecture BHV of MAC_tb is
             xk_in   => xk_s,
             RST     => RST_s,
             CLK     => CLK_s,
-            READY   => READY_s,
             yn      => y_s
         );
 
@@ -56,7 +54,7 @@ architecture BHV of MAC_tb is
             wait for 80ns;
             READY_s <= '1';
             wait for 20ns;
-            
+
             READY_s <= '0';
             wait for 20ns;
             std.env.stop(0);

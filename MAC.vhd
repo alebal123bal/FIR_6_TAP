@@ -9,7 +9,6 @@ entity MAC is
         xk_in   :   in data_format;
         RST     :   in std_logic;
         CLK     :   in std_logic;
-        READY   :   in std_logic;
         yn      :   out data_format
     );
 end entity MAC;
@@ -20,7 +19,7 @@ architecture BHV of MAC is
     signal sum_s    :   data_format;
 
     begin
-        CALC_OUT: process(RST, ROM_in, xk_in, READY, mult_s, sum_s, yn)
+        CALC_OUT: process(RST, ROM_in, xk_in, mult_s, sum_s, yn)
         begin
             if RST='0' then
                 mult_s <= (others => '0');

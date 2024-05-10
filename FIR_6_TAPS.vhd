@@ -44,7 +44,6 @@ architecture BHV of FIR_6_TAPS is
             xk_in   :   in data_format;
             RST     :   in std_logic;
             CLK     :   in std_logic;
-            READY   :   in std_logic;
             yn      :   out data_format
         );
     end component;
@@ -87,7 +86,6 @@ architecture BHV of FIR_6_TAPS is
             xk_in   => xk_s,
             RST     => RST,
             CLK     => CLK,
-            READY   => READY,
             yn      => yn
         );
 
