@@ -44,14 +44,19 @@ architecture BHV of MAC_tb is
             wait for 20ns;
             RST_s <= '1';
 
-            wait for 200ns;
-
+            ROM_s   <= x"000001";
+            xk_s   <= x"000001";
+            wait for 80ns;
             READY_s <= '1';
             wait for 20ns;
+            
+            ROM_s   <= x"000002";
+            xk_s   <= x"000002";
             READY_s <= '0';
-            wait for 200ns;
+            wait for 80ns;
             READY_s <= '1';
             wait for 20ns;
+            
             READY_s <= '0';
             wait for 20ns;
             std.env.stop(0);
