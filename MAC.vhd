@@ -44,14 +44,12 @@ architecture BHV of MAC is
             end process REG_ASSIGN;
         
         -- Assign output only when is ready
-        OUT_ASSIGN: process(CLK)
+        OUT_ASSIGN: process(READY)
         begin
-            if rising_edge(CLK) then
-                if READY='1' then
-                    yn <= sum_s_clkd;
-                else
-                    yn <= yn;
-                end if;
+            if READY='1' then
+                yn <= sum_s_clkd;
+            else
+                yn <= yn;
             end if;
         end process OUT_ASSIGN;    
     end architecture BHV;
