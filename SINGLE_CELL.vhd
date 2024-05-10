@@ -18,21 +18,18 @@ end entity single_cell;
 
 architecture BHV of single_cell is
     signal xs:  data_format;
-    signal ys:  data_format;
 
     begin
         -- Input MUX 
-        MUX_2_1:    process(RST, READY, xin, yout, xs, ys)
+        MUX_2_1:    process(RST, READY, xin, yout, xs)
             begin
                 -- Active-Low Reset
                 if RST='0' then
-                    ys <= (others => '0');
-                    xs <= (others => '0');
+                    yout    <= (others => '0');
+                    xs      <= (others => '0');
                 else
-                    ys <= yout;
-
                     if READY='0' then
-                        xs <= ys;
+                        xs <= yout;
                     else
                         xs <= xin;
                     end if;

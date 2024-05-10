@@ -8,7 +8,7 @@ entity IN_BUFFER is
     port(
         RST:    in std_logic;
         CLK:    in std_logic;
-        READY:  in std_logic;
+        READY:  in std_logic;   -- Used as a LOAD
         K:      in k_format;
         xn_p_1: in data_format;
         xk:     out data_format

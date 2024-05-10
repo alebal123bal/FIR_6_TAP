@@ -40,13 +40,16 @@ architecture BHV of BUFF_tb is
             RST_s <= '0';
             READY_s <= '0';
             wait for 20ns;
-            RST_s <= '1';
 
+            xs <= x"00BEEF";
+            RST_s <= '1';
             READY_s <= '1';
             wait for 20ns;
-            READY_s <= '0';
 
+            READY_s <= '0';
+            xs <= x"000000";
             wait for 200ns;
+            
             std.env.stop(0);
         end process;
 
