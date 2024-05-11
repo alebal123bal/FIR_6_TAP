@@ -9,7 +9,6 @@ entity IN_BUFFER is
         RST:    in std_logic;
         CLK:    in std_logic;
         READY:  in std_logic;   -- Used as a LOAD
-        K:      in k_format;
         xn_p_1: in data_format;
         xk:     out data_format
     );
@@ -26,16 +25,32 @@ architecture BHV of IN_BUFFER is
         );
     end component;
 
-    
+    component MUX_2_1 is
+        port(
+            A:  in data_format;
+            B:  in data_format
+            SEL:    in std_logic;
+            Y:  out data_format
+        );
+    end component MUX_2_1;
+
+    signal Y_s: data_format;
 
     begin
+        IN_MUX: MUX port map(
+            A => xn_p_1,
+            B => xk_s(xk_s'right),
+            SEL => READY,
+            Y => Y_s
+        );
+
         -- for generate loop to make the FIFO-like buffer
         FIFO_GEN:   for i in 0 to 5 generate
             FIRST_INST: if i=0 generate
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  xin   => xn_p_1,
+                  xin   => Y_s,
                   yout  => xk_s(i)
                 );
             end generate FIRST_INST;
@@ -50,10 +65,7 @@ architecture BHV of IN_BUFFER is
             end generate OTHER_INST;
         end generate FIFO_GEN;
 
-        GET_XK: process(xk_s, K)
-            begin
-                xk <= xk_s(to_integer(K));
-            end process GET_XK;
+        xk <= xk_s(xk_s'right);
             
     end architecture BHV;
 

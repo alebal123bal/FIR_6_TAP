@@ -12,7 +12,6 @@ architecture BHV of BUFF_tb is
             RST:    in std_logic;
             CLK:    in std_logic;
             READY:  in std_logic;
-            K:      in k_format;
             xn_p_1: in data_format;
             xk:     out data_format
         );
@@ -20,7 +19,6 @@ architecture BHV of BUFF_tb is
 
     signal xn_p_1_s   :  data_format :=  x"000000";
     signal xk_s   :  data_format :=  x"000000";
-    signal K_s  :  unsigned(2 downto 0);
 
     signal RST_s    :   std_logic;
     signal CLK_s    :   std_logic;
@@ -31,7 +29,6 @@ architecture BHV of BUFF_tb is
             RST     => RST_s,
             CLK     => CLK_s,
             READY   => READY_s,
-            K       => K_s,
             xn_p_1  => xn_p_1_s,
             xk      => xk_s
         );
@@ -47,37 +44,17 @@ architecture BHV of BUFF_tb is
             
             xn_p_1_s <= x"00BEEF";
             READY_s <= '1';
-            K_s <= "000";
             wait for 20ns;
 
             READY_s <= '0';
-            K_s <= "001";
-            wait for 20ns;
-            K_s <= "010";
-            wait for 20ns;
-            K_s <= "011";
-            wait for 20ns;
-            K_s <= "100";
-            wait for 20ns;
-            K_s <= "101";
-            wait for 20ns;
+            wait for 100ns;
 
             xn_p_1_s <= x"00DEAD";
             READY_s <= '1';
-            K_s <= "000";
             wait for 20ns;
             
             READY_s <= '0';
-            K_s <= "001";
-            wait for 20ns;
-            K_s <= "010";
-            wait for 20ns;
-            K_s <= "011";
-            wait for 20ns;
-            K_s <= "100";
-            wait for 20ns;
-            K_s <= "101";
-            wait for 20ns;
+            wait for 100ns;
 
             
             std.env.stop(0);
