@@ -18,7 +18,7 @@ architecture BHV of BUFF_tb is
         );
     end component;
 
-    signal xn_p_1_s   :  data_format :=  x"00BEEF";
+    signal xn_p_1_s   :  data_format :=  x"000000";
     signal xk_s   :  data_format :=  x"000000";
     signal K_s  :  unsigned(2 downto 0);
 
@@ -37,11 +37,12 @@ architecture BHV of BUFF_tb is
         );
 
         process begin
-            wait for 10ns;
             
             -- Active low
             RST_s <= '0';
             READY_s <= '0';
+
+            wait for 10ns;
             wait for 20ns;
 
             RST_s <= '1';
