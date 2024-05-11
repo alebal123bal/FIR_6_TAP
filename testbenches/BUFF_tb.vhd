@@ -18,8 +18,9 @@ architecture BHV of BUFF_tb is
         );
     end component;
 
-    signal xs   :  data_format :=  x"00BEEF";
-    signal ys   :  data_format :=  x"000000";
+    signal xn_p_1_s   :  data_format :=  x"00BEEF";
+    signal xk_s   :  data_format :=  x"000000";
+    signal K_s  :  unsigned(2 downto 0);
 
     signal RST_s    :   std_logic;
     signal CLK_s    :   std_logic;
@@ -30,9 +31,9 @@ architecture BHV of BUFF_tb is
             RST     => RST_s,
             CLK     => CLK_s,
             READY   => READY_s,
-            K       => "101",
-            xn_p_1  => xs,
-            xk      => ys
+            K       => K_s,
+            xn_p_1  => xn_p_1_s,
+            xk      => xk_s
         );
 
         process begin
@@ -41,14 +42,42 @@ architecture BHV of BUFF_tb is
             READY_s <= '0';
             wait for 20ns;
 
-            xs <= x"00BEEF";
             RST_s <= '1';
+            
+            xn_p_1_s <= x"00BEEF";
             READY_s <= '1';
+            K_s <= "000";
             wait for 20ns;
 
             READY_s <= '0';
-            xs <= x"000000";
-            wait for 200ns;
+            K_s <= "001";
+            wait for 20ns;
+            K_s <= "010";
+            wait for 20ns;
+            K_s <= "011";
+            wait for 20ns;
+            K_s <= "100";
+            wait for 20ns;
+            K_s <= "101";
+            wait for 20ns;
+
+            xn_p_1_s <= x"00DEAD";
+            READY_s <= '1';
+            K_s <= "000";
+            wait for 20ns;
+            
+            READY_s <= '0';
+            K_s <= "001";
+            wait for 20ns;
+            K_s <= "010";
+            wait for 20ns;
+            K_s <= "011";
+            wait for 20ns;
+            K_s <= "100";
+            wait for 20ns;
+            K_s <= "101";
+            wait for 20ns;
+
             
             std.env.stop(0);
         end process;
