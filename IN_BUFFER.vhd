@@ -19,36 +19,35 @@ end entity IN_BUFFER;
 architecture BHV of IN_BUFFER is
     -- Output of MUX to pick K-th element of BUFFER
     signal xk_s:    data_format_array;
-    signal yk_s:    data_format_array;
-
-    signal y_s:     data_format;
 
     begin
-        GET_XK: process(RST, READY, xn_p_1, yk_s)
-        begin
-            if RST = '0' then
-                for i in xk_s'range loop
-                    xk_s    <=  (others => '0');
-                end loop;
-            else
-                if READY = '1' then
-                    xk_s(0) <= xn_p_1;
-                    xk_s(1) <= yk_s(0);
-                    xk_s(2) <= yk_s(0);
-                    xk_s(3) <= yk_s(2);
-                    xk_s(4) <= yk_s(3);
-                    xk_s(5) <= yk_s(4);
-                else
-                    xk_s    <= yk_s;
-                end if;
-            end if;
-        end process GET_XK;
+        -- for generate loop to make the FIFO-like buffer
+        FIFO_GEN:   for i in 0 to 5 generate
+            FIRST_INST: if i=0 generate
+                FIFO_stage_i:  single_cell port map(
+                  RST   => RST,
+                  CLK   => CLK,
+                  READY => READY,
+                  xin   => xn_p_1,
+                  yout  => xk_s(i)
+                );
+            end generate FIRST_INST;
 
-        ASSIGN_OUT: process(CLK)
-        begin
-            yk_s    <=  xk_s;
-        end process ASSIGN_OUT;
+            OTHER_INST: if i>0 generate
+                FIFO_stage_i:  single_cell port map(
+                  RST   => RST,
+                  CLK   => CLK,
+                  READY => READY,
+                  xin   => xk_s(i-1),
+                  yout  => xk_s(i)
+                );
+            end generate OTHER_INST;
+        end generate FIFO_GEN;
 
+        GET_XK: process(xk_s, K)
+            begin
+                xk <= xk_s(to_integer(K));
+            end process GET_XK;
             
     end architecture BHV;
 
