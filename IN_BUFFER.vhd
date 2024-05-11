@@ -28,18 +28,19 @@ architecture BHV of IN_BUFFER is
     component MUX_2_1 is
         port(
             A:  in data_format;
-            B:  in data_format
+            B:  in data_format;
             SEL:    in std_logic;
             Y:  out data_format
         );
     end component MUX_2_1;
 
+    signal xk_s : data_format_array;
     signal Y_s: data_format;
 
     begin
-        IN_MUX: MUX port map(
-            A => xn_p_1,
-            B => xk_s(xk_s'right),
+        IN_MUX: MUX_2_1 port map(
+            A => xk_s(xk_s'right),
+            B => xn_p_1,
             SEL => READY,
             Y => Y_s
         );

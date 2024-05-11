@@ -7,7 +7,7 @@ use WORK.pack_FIR.all;
 entity MUX_2_1 is
     port(
         A:  in data_format;
-        B:  in data_format
+        B:  in data_format;
         SEL:    in std_logic;
         Y:  out data_format
     );

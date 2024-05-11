@@ -19,7 +19,7 @@ architecture BHV of single_cell is
     signal x_s:  data_format;
 
     begin
-        process(RST, xin, yout, x_s)
+        process(RST, xin)
             begin
                 -- Active-Low Reset
                 if RST='0' then
