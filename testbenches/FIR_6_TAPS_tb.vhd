@@ -41,7 +41,7 @@ architecture BHV of FIR_6_TAPS_tb is
             -- Active low
             RST_s   <= '0';
             START_s <= '0';
-            wait for 20ns;
+            wait for 60ns;
             xin_s   <= x"000001";    --Constant input
             RST_s   <= '1';
             START_s <= '1';

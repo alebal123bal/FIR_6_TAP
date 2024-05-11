@@ -30,8 +30,6 @@ architecture BHV of IN_BUFFER is
     -- Output of MUX to pick K-th element of BUFFER
     signal xk_s:    data_format_array;
 
-    signal y_s:     data_format;
-
     begin
         -- for generate loop to make the FIFO-like buffer
         FIFO_GEN:   for i in 0 to 5 generate
@@ -58,18 +56,8 @@ architecture BHV of IN_BUFFER is
 
         GET_XK: process(xk_s, K)
             begin
-                y_s <= xk_s(to_integer(K));
+                xk <= xk_s(to_integer(K));
             end process GET_XK;
             
-        -- I chose to use CLK = '1' instead of rising edge since the 
-        -- output of the single cell, xk_s(i), is not yet changed during the
-        -- rising edge, so I get the older value    
-        ASSIGN_OUT: process(CLK, y_s)
-        begin
-            if CLK = '1' then
-                xk <= y_s;
-            end if;
-        end process ASSIGN_OUT;
-
     end architecture BHV;
 
