@@ -9,7 +9,6 @@ entity single_cell is
     port(
         RST:    in std_logic;
         CLK:    in std_logic;
-        READY:  in std_logic;
         xin:    in data_format;
         yout:   out data_format
     );
@@ -20,21 +19,15 @@ architecture BHV of single_cell is
     signal x_s:  data_format;
 
     begin
-        -- Input MUX 
-        MUX_2_1:    process(RST, READY, xin, yout, x_s)
+        process(RST, xin, yout, x_s)
             begin
                 -- Active-Low Reset
                 if RST='0' then
-                    --yout    <= (others => '0');
-                    x_s      <= (others => '0');
+                    x_s <= (others => '0');
                 else
-                    if READY='0' then
-                        x_s <= yout;
-                    else
-                        x_s <= xin;
-                    end if;
+                    x_s <= xin;
                 end if;
-            end process MUX_2_1;
+            end process;
         
         -- Assign REGs content
         REG_ASSIGN: process(CLK)

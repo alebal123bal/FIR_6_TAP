@@ -21,13 +21,12 @@ architecture BHV of IN_BUFFER is
         port(
             RST:    in std_logic;
             CLK:    in std_logic;
-            READY:  in std_logic;
             xin:    in data_format;
             yout:   out data_format
         );
     end component;
-    -- Output of MUX to pick K-th element of BUFFER
-    signal xk_s:    data_format_array;
+
+    
 
     begin
         -- for generate loop to make the FIFO-like buffer
@@ -36,7 +35,6 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  READY => READY,
                   xin   => xn_p_1,
                   yout  => xk_s(i)
                 );
@@ -46,7 +44,6 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  READY => READY,
                   xin   => xk_s(i-1),
                   yout  => xk_s(i)
                 );
