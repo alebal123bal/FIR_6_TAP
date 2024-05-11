@@ -17,6 +17,15 @@ end entity IN_BUFFER;
 
 
 architecture BHV of IN_BUFFER is
+    component single_cell is
+        port(
+            RST:    in std_logic;
+            CLK:    in std_logic;
+            READY:  in std_logic;
+            xin:    in data_format;
+            yout:   out data_format
+        );
+    end component;
     -- Output of MUX to pick K-th element of BUFFER
     signal xk_s:    data_format_array;
 

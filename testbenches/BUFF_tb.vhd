@@ -36,14 +36,11 @@ architecture BHV of BUFF_tb is
             xk      => xk_s
         );
 
-        process begin
-            wait for 10ns;
-            
+        process begin            
             -- Active low
             RST_s <= '0';
             READY_s <= '0';
 
-            wait for 10ns;
             wait for 20ns;
 
             RST_s <= '1';
