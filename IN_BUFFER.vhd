@@ -47,7 +47,7 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  READY => not READY,   -- Important to invert MUX inputs
+                  READY => READY,
                   xin   => xk_s(i-1),
                   yout  => xk_s(i)
                 );
