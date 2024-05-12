@@ -9,6 +9,7 @@ entity IN_BUFFER is
         RST:    in std_logic;
         CLK:    in std_logic;
         READY:  in std_logic;   -- Used as a LOAD
+        K:      in k_format;
         xn_p_1: in data_format;
         xk:     out data_format
     );
@@ -29,20 +30,13 @@ architecture BHV of IN_BUFFER is
     signal xk_s:    data_format_array;
 
     begin
-        IN_MUX: MUX_2_1 port map(
-            A => xk_s(xk_s'right),
-            B => xn_p_1,
-            SEL => READY,
-            Y => Y_s
-        );
-
         -- for generate loop to make the FIFO-like buffer
         FIFO_GEN:   for i in 0 to 5 generate
             FIRST_INST: if i=0 generate
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  xin   => Y_s,
+                  xin   => xn_p_1,
                   yout  => xk_s(i)
                 );
             end generate FIRST_INST;
