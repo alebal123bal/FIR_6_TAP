@@ -25,17 +25,8 @@ architecture BHV of IN_BUFFER is
         );
     end component;
 
-    component MUX_2_1 is
-        port(
-            A:  in data_format;
-            B:  in data_format;
-            SEL:    in std_logic;
-            Y:  out data_format
-        );
-    end component MUX_2_1;
-
-    signal xk_s : data_format_array;
-    signal Y_s: data_format;
+    -- Output of MUX to pick K-th element of BUFFER
+    signal xk_s:    data_format_array;
 
     begin
         IN_MUX: MUX_2_1 port map(
@@ -66,7 +57,10 @@ architecture BHV of IN_BUFFER is
             end generate OTHER_INST;
         end generate FIFO_GEN;
 
-        xk <= xk_s(xk_s'right);
+        GET_XK: process(xk_s, K)
+            begin
+                xk <= xk_s(to_integer(K));
+            end process GET_XK;
             
     end architecture BHV;
 
