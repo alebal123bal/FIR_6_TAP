@@ -9,27 +9,24 @@ end entity FIR_6_TAPS_tb;
 architecture BHV of FIR_6_TAPS_tb is
     component FIR_6_TAPS is
         port(
-            START:  in std_logic;
             RST:    in std_logic;
             CLK:    in std_logic;
-            x_in    :   in data_format;
-            yn      :   out data_format;
+            x_in:   in data_format;
+            yn:     out data_format;
             READY:  out std_logic
         );
     end component;
 
     signal xin_s    :  data_format;
 
-    signal START_s  :   std_logic;
     signal RST_s    :   std_logic;
     signal CLK_s    :   std_logic;
-    signal READY_s  :   std_logic;
+    signal READY_s  :   std_logic:= '0';
 
     signal yn_s     :   data_format;
 
     begin
         DUT_FIR_6_TAPS: FIR_6_TAPS port map(
-            START   => START_s,
             RST     => RST_s,
             CLK     => CLK_s,
             x_in    => xin_s,
@@ -40,11 +37,9 @@ architecture BHV of FIR_6_TAPS_tb is
         process begin
             -- Active low
             RST_s   <= '0';
-            START_s <= '0';
             xin_s   <= x"000001";    --Constant input
             wait for 30ns;
             RST_s   <= '1';
-            START_s <= '1';
 
             wait for 400ns;
 

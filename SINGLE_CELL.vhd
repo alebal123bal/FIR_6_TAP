@@ -20,7 +20,7 @@ architecture BHV of single_cell is
 
     begin
         -- Assign REGs content
-        REG_ASSIGN: process(CLK, RST, xin)
+        REG_ASSIGN: process(CLK, RST, xin, yout)
             begin
                 if rising_edge(CLK) then
                     -- Active-Low Reset

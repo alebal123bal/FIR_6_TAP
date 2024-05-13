@@ -37,7 +37,8 @@ architecture BHV of BUFF_tb is
             xk      => xk_s
         );
 
-        process begin            
+        process begin           
+            xn_p_1_s <= x"00BEEF"; 
             -- Active low
             RST_s <= '0';
             READY_s <= '0';
@@ -47,7 +48,6 @@ architecture BHV of BUFF_tb is
 
             RST_s <= '1';
             
-            xn_p_1_s <= x"00BEEF";
             READY_s <= '1';
             wait for 20ns;
 

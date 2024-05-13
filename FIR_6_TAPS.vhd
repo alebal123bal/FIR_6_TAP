@@ -5,7 +5,6 @@ use WORK.pack_FIR.all;
 
 entity FIR_6_TAPS is
     port(
-        START:  in std_logic;
         RST:    in std_logic;
         CLK:    in std_logic;
         x_in:   in data_format;
@@ -51,7 +50,6 @@ architecture BHV of FIR_6_TAPS is
 
     component CU is
         port(
-            START:  in std_logic;
             RST:    in std_logic;
             CLK:    in std_logic;
             K:      out k_format;
@@ -61,7 +59,6 @@ architecture BHV of FIR_6_TAPS is
 
     begin
         my_CU:  CU port map(
-            START   => START,
             RST     => RST,
             CLK     => CLK,
             K       => K_s,

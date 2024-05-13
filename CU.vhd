@@ -5,7 +5,6 @@ use WORK.pack_FIR.all;
 
 entity CU is
     port(
-        START:  in std_logic;
         RST:    in std_logic;
         CLK:    in std_logic;
         K:      out k_format;
@@ -18,7 +17,7 @@ architecture BHV of CU is
     
     begin
         -- Assign REGs content
-        REG_ASSIGN: process(CLK, START, RST, K, READY, state)
+        REG_ASSIGN: process(CLK, RST, K, READY, state)
             begin
                 if rising_edge(CLK) then
                     if RST = '0' then
@@ -27,15 +26,9 @@ architecture BHV of CU is
                         state   <= IDLE;
                     else
                         if state = IDLE then
-                            if START = '1' then
-                                state   <= ITERATE;
-                                K       <= "000";
-                                READY   <= '1'; 
-                            else
-                                state   <= IDLE;
-                                K       <= "000";
-                                READY   <= '0'; 
-                            end if;
+                            state   <= ITERATE;
+                            K       <= "000";
+                            READY   <= '1'; 
                         else    -- ITERATE state
                             if to_integer(K) < 5 then
                                 state   <= ITERATE;
