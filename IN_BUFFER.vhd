@@ -34,7 +34,6 @@ architecture BHV of IN_BUFFER is
 
     begin
         -- for generate loop to make the FIFO-like buffer
-        -- Need one more REG
         FIFO_GEN:   for i in 0 to 6 generate
             FIRST_INST: if i=0 generate
                 FIFO_stage_i:  single_cell port map(
@@ -56,8 +55,6 @@ architecture BHV of IN_BUFFER is
                 );
             end generate OTHER_INST;
         end generate FIFO_GEN;
-
-        -- Get specific output of MUX: need to shift of 1 position due to simultaneous CLK rising edge
 
         -- Assign REGed output xk sample
         REG_ASSIGN: process(CLK, xk_array_s, K, xn_p_1) 
