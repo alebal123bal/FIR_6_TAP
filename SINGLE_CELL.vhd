@@ -29,13 +29,11 @@ architecture BHV of single_cell is
                 end if;
             end process;
         
-        -- Assign REGs content
-        REG_ASSIGN: process(CLK)
+        -- TODO: eliminate this, and output x_s instead
+        OUT_ASSIGN: process(x_s)
             begin
-                if rising_edge(CLK) then
-                    yout <= x_s;
-                end if;
-            end process REG_ASSIGN;
+                yout <= x_s;
+            end process OUT_ASSIGN;
 
     end architecture BHV;
 
