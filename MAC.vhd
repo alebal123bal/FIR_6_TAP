@@ -14,28 +14,26 @@ entity MAC is
 end entity MAC;
 
 architecture BHV of MAC is
-    -- Combinational logic signals
-    signal mult_s   :   double_data_format;
-    signal sum_s    :   data_format;
+    signal sum_s:   data_format;            
+    signal mult_s:  double_data_format;            
 
     begin
-        CALC_OUT: process(RST, ROM_in, xk_in, mult_s, sum_s, yn)
+        -- Compute outputs
+        CALC_OUT: process(ROM_in, xk_in, yn, sum_s, mult_s)
         begin
-            if RST='0' then
-                mult_s <= (others => '0');
-                sum_s <= (others => '0');
-            else
-                mult_s  <=  ROM_in * xk_in;
-                sum_s   <=  mult_s(23 downto 0) + yn;
-            end if;
-
+            mult_s  <= ROM_in * xk_in;
+            sum_s   <= mult_s(23 downto 0) + yn;
         end process CALC_OUT;
 
         -- Assign REGs content
         REG_ASSIGN: process(CLK)
             begin
                 if rising_edge(CLK) then
-                    yn <= sum_s;
+                    if RST='0' then
+                        yn  <= (others => '0');
+                    else
+                        yn <= sum_s;
+                    end if;
                 end if;
             end process REG_ASSIGN;
     end architecture BHV;

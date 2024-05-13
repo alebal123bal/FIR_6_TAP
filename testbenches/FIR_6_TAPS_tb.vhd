@@ -12,8 +12,8 @@ architecture BHV of FIR_6_TAPS_tb is
             START:  in std_logic;
             RST:    in std_logic;
             CLK:    in std_logic;
-            x_in:   in data_format;
-            yn:     out data_format;
+            x_in    :   in data_format;
+            yn      :   out data_format;
             READY:  out std_logic
         );
     end component;
@@ -42,7 +42,7 @@ architecture BHV of FIR_6_TAPS_tb is
             RST_s   <= '0';
             START_s <= '0';
             xin_s   <= x"000001";    --Constant input
-            wait for 10ns;
+            wait for 30ns;
             RST_s   <= '1';
             START_s <= '1';
 

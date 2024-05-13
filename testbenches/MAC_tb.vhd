@@ -39,7 +39,7 @@ architecture BHV of MAC_tb is
             -- Active low
             RST_s <= '0';
             READY_s <= '0';
-            wait for 20ns;
+            wait for 30ns;
             RST_s <= '1';
 
             ROM_s   <= x"000001";
