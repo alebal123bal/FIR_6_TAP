@@ -45,7 +45,7 @@ architecture BHV of BUFF_tb is
             READY_s <= '0';
             k_s <= "000";
 
-            wait for 20ns;
+            wait for 10ns;
 
             RST_s <= '1';
             

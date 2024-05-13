@@ -10,7 +10,7 @@ entity single_cell is
         RST:    in std_logic;
         CLK:    in std_logic;
         xin:    in data_format;
-        yout:   out data_format
+        yout:   out data_format     -- REG output
     );
 end entity single_cell;
 
@@ -29,11 +29,13 @@ architecture BHV of single_cell is
                 end if;
             end process;
         
-        -- TODO: eliminate this, and output x_s instead
-        OUT_ASSIGN: process(x_s)
+        -- Assign REGs content
+        REG_ASSIGN: process(CLK)
             begin
-                yout <= x_s;
-            end process OUT_ASSIGN;
+                if rising_edge(CLK) then
+                    yout <= x_s;
+                end if;
+            end process REG_ASSIGN;
 
     end architecture BHV;
 

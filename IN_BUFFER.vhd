@@ -26,18 +26,21 @@ architecture BHV of IN_BUFFER is
         );
     end component;
 
+    -- Array of single cell outputs
+    signal xk_array_s:    data_format_array;
     -- Output of MUX to pick K-th element of BUFFER
-    signal xk_s:    data_format_array;
+    signal xk_s:    data_format;
 
     begin
         -- for generate loop to make the FIFO-like buffer
-        FIFO_GEN:   for i in 0 to 5 generate
+        -- Need one more REG
+        FIFO_GEN:   for i in 0 to 6 generate
             FIRST_INST: if i=0 generate
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
                   xin   => xn_p_1,
-                  yout  => xk_s(i)
+                  yout  => xk_array_s(i)
                 );
             end generate FIRST_INST;
 
@@ -45,16 +48,31 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
-                  xin   => xk_s(i-1),
-                  yout  => xk_s(i)
+                  xin   => xk_array_s(i-1),
+                  yout  => xk_array_s(i)
                 );
             end generate OTHER_INST;
         end generate FIFO_GEN;
 
-        GET_XK: process(xk_s, K)
+        -- Get specific output of MUX: need to shift of 1 position due to simultaneous CLK rising edge
+        GET_XK: process(xk_array_s, K, xn_p_1)
             begin
-                xk <= xk_s(to_integer(K));
+                if (to_integer(K) < 6) then 
+                    if to_integer(K) = 0 then 
+                        xk_s <= xn_p_1;
+                    else
+                        xk_s <= xk_array_s(to_integer(K) + 1);
+                    end if; 
+                end if;
             end process GET_XK;
+
+        -- Assign REGed output xk sample
+        REG_ASSIGN: process(CLK) begin
+            if rising_edge(CLK) then
+                xk  <= xk_s;
+            end if;
+        end process REG_ASSIGN;
+
             
     end architecture BHV;
 
