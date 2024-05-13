@@ -23,7 +23,8 @@ architecture BHV of single_cell is
             begin
                 -- Active-Low Reset
                 if RST='0' then
-                    x_s <= (others => '0');
+                    x_s     <= (others => '0');
+                    yout    <= (others => '0');
                 else
                     x_s <= xin;
                 end if;
