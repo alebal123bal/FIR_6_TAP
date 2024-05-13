@@ -19,8 +19,7 @@ architecture BHV of ROM is
         x"00000C",
         x"00000D",
         x"00000E",
-        x"00000F",
-        x"000001"
+        x"00000F"
     );
 
 	begin

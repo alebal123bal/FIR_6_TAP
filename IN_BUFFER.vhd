@@ -32,7 +32,7 @@ architecture BHV of IN_BUFFER is
 
     begin
         -- for generate loop to make the FIFO-like buffer
-        FIFO_GEN:   for i in 0 to 6 generate
+        FIFO_GEN:   for i in 0 to 5 generate
             FIRST_INST: if i=0 generate
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
