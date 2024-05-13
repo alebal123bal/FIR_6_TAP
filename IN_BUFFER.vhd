@@ -21,6 +21,7 @@ architecture BHV of IN_BUFFER is
         port(
             RST:    in std_logic;
             CLK:    in std_logic;
+            READY:  in std_logic;
             xin:    in data_format;
             yout:   out data_format
         );
@@ -39,6 +40,7 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
+                  READY => READY,
                   xin   => xn_p_1,
                   yout  => xk_array_s(i)
                 );
@@ -48,6 +50,7 @@ architecture BHV of IN_BUFFER is
                 FIFO_stage_i:  single_cell port map(
                   RST   => RST,
                   CLK   => CLK,
+                  READY => READY,
                   xin   => xk_array_s(i-1),
                   yout  => xk_array_s(i)
                 );
@@ -55,21 +58,16 @@ architecture BHV of IN_BUFFER is
         end generate FIFO_GEN;
 
         -- Get specific output of MUX: need to shift of 1 position due to simultaneous CLK rising edge
-        GET_XK: process(xk_array_s, K, xn_p_1)
-            begin
-                if (to_integer(K) < 6) then 
-                    if to_integer(K) = 0 then 
-                        xk_s <= xn_p_1;
-                    else
-                        xk_s <= xk_array_s(to_integer(K) + 1);
-                    end if; 
-                end if;
-            end process GET_XK;
 
         -- Assign REGed output xk sample
-        REG_ASSIGN: process(CLK) begin
+        REG_ASSIGN: process(CLK, xk_array_s, K, xn_p_1) 
+            begin
             if rising_edge(CLK) then
-                xk  <= xk_s;
+                if to_integer(K) = 0 then 
+                    xk <= xn_p_1;
+                else
+                    xk <= xk_array_s(to_integer(K));
+                end if;
             end if;
         end process REG_ASSIGN;
 

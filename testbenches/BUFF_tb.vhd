@@ -82,7 +82,7 @@ architecture BHV of BUFF_tb is
             k_s <= "101";
             wait for 20ns;
 
-            xn_p_1_s <= x"000000";
+            xn_p_1_s <= x"00F001";
             READY_s <= '1';
             k_s <= "000";
             wait for 20ns;
