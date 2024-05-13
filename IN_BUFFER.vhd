@@ -29,8 +29,6 @@ architecture BHV of IN_BUFFER is
 
     -- Array of single cell outputs
     signal xk_array_s:    data_format_array;
-    -- Output of MUX to pick K-th element of BUFFER
-    signal xk_s:    data_format;
 
     begin
         -- for generate loop to make the FIFO-like buffer
@@ -57,16 +55,10 @@ architecture BHV of IN_BUFFER is
         end generate FIFO_GEN;
 
         -- Assign REGed output xk sample
-        REG_ASSIGN: process(CLK, xk_array_s, K, xn_p_1) 
+        OUT_ASSIGN: process(xk_array_s, K, xn_p_1) 
             begin
-            if rising_edge(CLK) then
-                if to_integer(K) = 0 then 
-                    xk <= xn_p_1;
-                else
-                    xk <= xk_array_s(to_integer(K));
-                end if;
-            end if;
-        end process REG_ASSIGN;
+                xk <= xk_array_s(to_integer(K));
+        end process OUT_ASSIGN;
 
             
     end architecture BHV;
