@@ -13,7 +13,8 @@ architecture BHV of FIR_6_TAPS_tb is
             CLK:    in std_logic;
             x_in:   in data_format;
             yn:     out data_format;
-            READY:  out std_logic
+            READY:  out std_logic;
+            final_yn:   out data_format
         );
     end component;
 
@@ -24,6 +25,7 @@ architecture BHV of FIR_6_TAPS_tb is
     signal READY_s  :   std_logic:= '0';
 
     signal yn_s     :   data_format;
+    signal final_yn_s     :   data_format;
 
     begin
         DUT_FIR_6_TAPS: FIR_6_TAPS port map(
@@ -31,7 +33,8 @@ architecture BHV of FIR_6_TAPS_tb is
             CLK     => CLK_s,
             x_in    => xin_s,
             yn      => yn_s,
-            READY   => READY_s
+            READY   => READY_s,
+            final_yn => final_yn_s
         );
 
         process begin

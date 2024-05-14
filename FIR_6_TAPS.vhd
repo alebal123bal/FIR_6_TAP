@@ -9,7 +9,8 @@ entity FIR_6_TAPS is
         CLK:    in std_logic;
         x_in:   in data_format;
         yn:     out data_format;
-        READY:  out std_logic
+        READY:  out std_logic;
+        final_yn:   out data_format
     );
 end entity FIR_6_TAPS;
 
@@ -92,4 +93,14 @@ architecture BHV of FIR_6_TAPS is
         READY <= READY_s;
     end process OUT_ASSIGN;
 
+    -- Assign official yn value
+    REG_ASSIGN: process(CLK, K_s, yn)
+    begin
+        if rising_edge(CLK) then
+            if to_integer(K_s) = 4 then
+                final_yn <= yn;
+            end if;
+        end if;
+    end process REG_ASSIGN;
+    
     end architecture BHV;
