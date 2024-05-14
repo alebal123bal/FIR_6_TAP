@@ -102,7 +102,7 @@ architecture BHV of FIR_6_TAPS is
             if RST = '0' then
                 final_yn <=  (others => '0');
             else
-                if to_integer(K_s) = 5 then
+                if to_integer(K_s) = 5 then --This should latch up final_yn
                     final_yn <= yn;
                 end if;
             end if;
