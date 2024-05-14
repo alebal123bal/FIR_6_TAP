@@ -13,36 +13,51 @@ entity CU is
 end entity CU;
 
 architecture BHV of CU is
-    signal state:   state_type;
-    
-    begin
-        -- Assign REGs content
-        REG_ASSIGN: process(CLK, RST, K, READY, state)
-            begin
-                if rising_edge(CLK) then
-                    if RST = '0' then
-                        K       <= "000";
-                        READY   <= '0';
-                        state   <= IDLE;
-                    else
-                        if state = IDLE then
-                            state   <= ITERATE;
-                            K       <= "000";
-                            READY   <= '1'; 
-                        else    -- ITERATE state
-                            if to_integer(K) < 5 then
-                                state   <= ITERATE;
-                                K       <= K+1;
-                                READY   <= '0'; 
-                            else
-                                state   <= ITERATE;
-                                K       <= "000";
-                                READY   <= '1'; 
-                            end if;
-                        end if;
-                    end if;
+    signal current_state:   state_type;
+    signal REGed_state:     state_type;
+    signal current_k:       k_format;
+    signal REGed_K:         k_format;
+    signal READY_s:         std_logic;
 
+    begin
+        -- current_k is used as output, since I need a combinatorial output
+        CALC_NEXT: process(RST, K, current_k, REGed_K, current_state, REGed_state, READY_s)
+        begin
+            if RST = '0' then
+                current_state <= IDLE;
+                current_k   <= "000";
+                READY_s     <= '0';
+            else
+                current_state <= ITERATE;
+
+                if REGed_state = IDLE then
+                    current_k   <= "000";
+                    READY_s     <= '1';
+                else
+                    if to_integer(REGed_K) < 5 then
+                        current_k   <=  REGed_K + 1;
+                        READY_s <= '0';
+                    else
+                        current_k <= "000";
+                        READY_s <= '1';
+                    end if;
                 end if;
-            end process REG_ASSIGN;
+            end if;
+        end process CALC_NEXT;
+
+        -- Assign combinatorial outputs
+        OUT_ASSIGN: process(current_k, READY_s)
+        begin
+            READY   <= READY_s;
+            K       <= current_k;
+        end process OUT_ASSIGN;
+
+        -- Assign internal registers; K is not the output but the saved REG
+        REG_ASSIGN: process(CLK) begin
+            if rising_edge(CLK) then
+                REGed_state <= current_state;
+                REGed_K <= current_k;
+            end if;
+        end process REG_ASSIGN;
 
 end architecture BHV;
