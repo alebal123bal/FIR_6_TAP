@@ -52,7 +52,7 @@ architecture BHV of CU is
             K       <= current_k;
         end process OUT_ASSIGN;
 
-        -- Assign internal registers; K is not the output but the saved REG
+        -- Assign internal registers; not the output but the saved REG
         REG_ASSIGN: process(CLK) begin
             if rising_edge(CLK) then
                 REGed_state <= current_state;
