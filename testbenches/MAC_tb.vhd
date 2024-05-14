@@ -12,6 +12,7 @@ architecture BHV of MAC_tb is
             ROM_in  :   in data_format;
             xk_in   :   in data_format;
             RST     :   in std_logic;
+            READY   :   in std_logic;
             CLK     :   in std_logic;
             yn      :   out data_format
         );
@@ -31,6 +32,7 @@ architecture BHV of MAC_tb is
             ROM_in  => ROM_s,
             xk_in   => xk_s,
             RST     => RST_s,
+            READY   => READY_s,
             CLK     => CLK_s,
             yn      => y_s
         );

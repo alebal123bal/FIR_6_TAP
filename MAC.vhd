@@ -8,6 +8,7 @@ entity MAC is
         ROM_in  :   in data_format;
         xk_in   :   in data_format;
         RST     :   in std_logic;
+        READY   :   in std_logic;
         CLK     :   in std_logic;
         yn      :   out data_format
     );
@@ -18,17 +19,21 @@ architecture BHV of MAC is
     signal mult_s:  double_data_format; 
     signal REGed_y: data_format;           
 
-    -- TODO: also this output must be combinatorial
+    -- TODO: Reset the register using READY signal
     begin
         -- Compute outputs
-        CALC_OUT: process(RST, ROM_in, xk_in, REGed_y, sum_s, mult_s)
+        CALC_OUT: process(RST, READY, ROM_in, xk_in, REGed_y, sum_s, mult_s)
         begin
             if RST = '0' then
                 mult_s  <= (others => '0');
                 sum_s   <= (others => '0');
             else
                 mult_s  <= ROM_in * xk_in;
-                sum_s   <= mult_s(23 downto 0) + REGed_y;
+                if READY = '0' then
+                    sum_s   <= mult_s(23 downto 0) + REGed_y;
+                else
+                    sum_s   <= mult_s(23 downto 0);
+                end if;
             end if;
         end process CALC_OUT;
 
