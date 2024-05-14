@@ -54,7 +54,7 @@ architecture BHV of IN_BUFFER is
             end generate OTHER_INST;
         end generate FIFO_GEN;
 
-        -- Assign REGed output xk sample
+        -- Assign output xk sample: combiantorial output
         OUT_ASSIGN: process(xk_array_s, K, xn_p_1) 
             begin
                 xk <= xk_array_s(to_integer(K));

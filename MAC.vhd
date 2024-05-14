@@ -17,6 +17,7 @@ architecture BHV of MAC is
     signal sum_s:   data_format;            
     signal mult_s:  double_data_format;            
 
+    -- TODO: also this output must be combinatorial
     begin
         -- Compute outputs
         CALC_OUT: process(ROM_in, xk_in, yn, sum_s, mult_s)
