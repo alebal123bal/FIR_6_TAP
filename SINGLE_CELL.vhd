@@ -22,7 +22,6 @@ architecture BHV of single_cell is
     signal current_yout: data_format;
 
     begin
-        -- TODO: make this out combinatorial too
         CALC_NEXT: process(RST, READY, xin, REGed_yout)
         begin
             -- Active-Low Reset

@@ -19,7 +19,6 @@ architecture BHV of MAC is
     signal mult_s:  double_data_format; 
     signal REGed_y: data_format;           
 
-    -- TODO: Reset the register using READY signal
     begin
         -- Compute outputs
         CALC_OUT: process(RST, READY, ROM_in, xk_in, REGed_y, sum_s, mult_s)
