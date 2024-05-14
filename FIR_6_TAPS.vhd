@@ -97,8 +97,12 @@ architecture BHV of FIR_6_TAPS is
     REG_ASSIGN: process(CLK, K_s, yn)
     begin
         if rising_edge(CLK) then
-            if to_integer(K_s) = 5 then
-                final_yn <= yn;
+            if RST = '0' then
+                final_yn <=  (others => '0');
+            else
+                if to_integer(K_s) = 5 then
+                    final_yn <= yn;
+                end if;
             end if;
         end if;
     end process REG_ASSIGN;
