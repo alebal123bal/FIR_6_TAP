@@ -15,26 +15,34 @@ end entity MAC;
 
 architecture BHV of MAC is
     signal sum_s:   data_format;            
-    signal mult_s:  double_data_format;            
+    signal mult_s:  double_data_format; 
+    signal REGed_y: data_format;           
 
     -- TODO: also this output must be combinatorial
     begin
         -- Compute outputs
-        CALC_OUT: process(ROM_in, xk_in, yn, sum_s, mult_s)
+        CALC_OUT: process(RST, ROM_in, xk_in, REGed_y, sum_s, mult_s)
         begin
-            mult_s  <= ROM_in * xk_in;
-            sum_s   <= mult_s(23 downto 0) + yn;
+            if RST = '0' then
+                mult_s  <= (others => '0');
+                sum_s   <= (others => '0');
+            else
+                mult_s  <= ROM_in * xk_in;
+                sum_s   <= mult_s(23 downto 0) + REGed_y;
+            end if;
         end process CALC_OUT;
+
+        -- Assign combinatorial outputs
+        OUT_ASSIGN:  process(sum_s)
+        begin
+            yn <= sum_s;
+        end process OUT_ASSIGN;
 
         -- Assign REGs content
         REG_ASSIGN: process(CLK)
             begin
                 if rising_edge(CLK) then
-                    if RST='0' then
-                        yn  <= (others => '0');
-                    else
-                        yn <= sum_s;
-                    end if;
+                    REGed_y <= sum_s;
                 end if;
             end process REG_ASSIGN;
     end architecture BHV;
