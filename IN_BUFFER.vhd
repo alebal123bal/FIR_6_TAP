@@ -23,12 +23,14 @@ architecture BHV of IN_BUFFER is
             CLK:    in std_logic;
             READY:  in std_logic;
             xin:    in data_format;
+            next_y: out data_format;
             yout:   out data_format
         );
     end component;
 
     -- Array of single cell outputs
-    signal xk_array_s:    data_format_array;
+    signal next_y_array:    data_format_array;
+    signal xk_array_s:      data_format_array;
 
     begin
         -- for generate loop to make the FIFO-like buffer
@@ -39,6 +41,7 @@ architecture BHV of IN_BUFFER is
                   CLK   => CLK,
                   READY => READY,
                   xin   => xn_p_1,
+                  next_y => next_y_array(i),
                   yout  => xk_array_s(i)
                 );
             end generate FIRST_INST;
@@ -49,15 +52,16 @@ architecture BHV of IN_BUFFER is
                   CLK   => CLK,
                   READY => READY,
                   xin   => xk_array_s(i-1),
+                  next_y => next_y_array(i),
                   yout  => xk_array_s(i)
                 );
             end generate OTHER_INST;
         end generate FIFO_GEN;
 
         -- Assign output xk sample: combiantorial output
-        OUT_ASSIGN: process(xk_array_s, K, xn_p_1) 
+        OUT_ASSIGN: process(next_y_array, K) 
             begin
-                xk <= xk_array_s(to_integer(K));
+                xk <= next_y_array(to_integer(K));
         end process OUT_ASSIGN;
 
             

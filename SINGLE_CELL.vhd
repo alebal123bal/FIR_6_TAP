@@ -11,29 +11,45 @@ entity single_cell is
         CLK:    in std_logic;
         READY:  in std_logic;
         xin:    in data_format;
-        yout:   out data_format     -- REG output
+        next_y: out data_format;
+        yout:   out data_format
     );
 end entity single_cell;
 
 
 architecture BHV of single_cell is
+    signal REGed_yout: data_format;
+    signal current_yout: data_format;
 
     begin
+        -- TODO: make this out combinatorial too
+        CALC_NEXT: process(RST, READY, xin, REGed_yout)
+        begin
+            -- Active-Low Reset
+            if RST='0' then
+                current_yout <= (others =>  '0');
+            else
+                --MUX logic
+                if READY = '1' then
+                    current_yout <= xin;
+                else 
+                    current_yout <= REGed_yout;
+                end if;
+            end if;
+        end process CALC_NEXT;
+
+        -- Assign combinatorial and REGed outputs
+        OUT_ASSIGN: process(current_yout, REGed_yout)
+        begin
+            next_y  <= current_yout;
+            yout    <= REGed_yout;
+        end process OUT_ASSIGN;
+
         -- Assign REGs content
-        REG_ASSIGN: process(CLK, RST, xin, yout)
+        REG_ASSIGN: process(CLK)
             begin
                 if rising_edge(CLK) then
-                    -- Active-Low Reset
-                    if RST='0' then
-                        yout <= (others =>  '0');
-                    else
-                        --MUX logic
-                        if READY = '1' then
-                            yout <= xin;
-                        else 
-                            yout <= yout;
-                        end if;
-                    end if;
+                    REGed_yout <= current_yout;
                 end if;
             end process REG_ASSIGN;
 
